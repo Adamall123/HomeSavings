@@ -1,0 +1,18 @@
+.container-fluid{
+    padding-top: 100px;
+    
+}
+
+.text-center{
+    cursor: pointer;
+    padding-bottom: 30px;
+   
+}
+.text-center:hover{
+     background-color:#72cff8;
+    border-radius: 25px;
+}
+
+.iconmain {
+   width: 100%;
+}
