@@ -1,6 +1,11 @@
 //go to registerloginpage
 $(document).ready(function(){
-   $(".button1").click(function(){
-       $('.container main').load("registerAndLogin.html");
+   $("#getStarted").click(function(){
+       $('.container main').load("register.html");
+   })
+});
+$(document).ready(function(){
+   $("#login").click(function(){
+       $('.container main').load("login.html");
    })
 });
