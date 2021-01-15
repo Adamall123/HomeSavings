@@ -1,11 +1,26 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="resources/js/homesaves.js"></script>
 </head>
 
 <body>
     <div class="container-fluid">
+        <div class="topnav" id="myTopnav">
+            <a href="" class="active">Home</a>
+            <a href="#Balance">Balance</a>
+            <a href="#Income">Add Income</a>
+            <a href="#Expence">Add Expence</a>
+              <div class="topnav-right">
+                <a href="#Settings">Setting</a>
+                <a id="logout" href="#index.html">Logout</a>
+              </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
         <div class="row">
             <div class="col-lg-6 col-xl-3">
                 <div class="text-center">
@@ -17,27 +32,38 @@
             <div class="col-lg-6 col-xl-3">
                 <div class="text-center">
                     <h5>Add income</h5>
-                    Provide the amount, select one specific category. Add a comment about the income.
+                    Provide the amount, select one specific category.
                     <div class="iconmain"><img src="resources/img/income.png" alt="income" /></div>
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
                 <div class="text-center">
                     <h5>Add expence</h5>
-                     Provide the amount, select <strron>payment method</strron> and select one specific category. Add a comment about the income.
+                    Provide the amount, select <strron>payment method</strron> and select one specific category.
                     <div class="iconmain"><img src="resources/img/expence3.png" alt="expence" /></div>
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
                 <div class="text-center">
                     <h5>Settings</h5>
-                    Change name, email address or account password.Delete, edit and add categories. Delete recently added income and expences.
+                    Delete, edit and add categories. Delete recently added income and expences.
                     <div class="iconmain"><img src="resources/img/settings.png" alt="setting" /></div>
                 </div>
             </div>
-        
+
         </div>
     </div>
+    
+    <script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
 </body>
 
 </html>
