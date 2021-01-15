@@ -20,7 +20,7 @@ body {
 }
 
 header {
-    padding-bottom: 200px;
+    padding-bottom: 100px;
 }
 
 #overlay {
@@ -77,6 +77,12 @@ main {
     text-align: justify;
 }
 
-.container footer {
-    margin-top: 70px;
+.siteFooter{
+    position:fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    line-height: 200%;
+    background-color: #225071;
 }
