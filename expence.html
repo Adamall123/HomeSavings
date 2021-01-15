@@ -1,0 +1,102 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="resources/js/homesaves.js"></script>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <a class="mainPage" href="#index.html">Home</a>
+        <a href="#Balance">Balance</a>
+        <a class="income" href="#index.html">Add Income</a>
+        <a class="expence active" href="#index.html">Add Expence</a>
+        <div class="topnav-right">
+            <a href="#Settings">Setting</a>
+            <a id="logout" href="#index.html">Logout</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center-expence">
+                    <div id="expensePanel">
+                        <div id="upperExpensePanel">
+                            <div id="upperExpensePanelText">
+                                Adding Expense
+                            </div>
+                        </div>
+
+                        <div class="lowerPanel">
+
+                            <form method="post" action="#" id="formAddExpense" novalidate="novalidate">
+
+                                <div class="inputPanel">
+                                    <input id="inputAmount" onchange="checkLimit();" type="number" name="amount" step="0.01" placeholder="0.00" min="0.01" max="99999999.99" class="form-control" value="">
+                                    <span id="categoryLimitWarning"></span>
+                                </div>
+
+                                <div class="inputPanel">
+                                    <input type="date" name="date" class="form-control" id="enterDate" value="">
+                                </div>
+
+                                <div class="inputPanel">
+                                    <select  id="inputCategory" class="form-control valid" name="expense_category_id" aria-invalid="false">
+                                        <option data-category-name="Transport" value="321">Transport</option>';
+                                        <option data-category-name="Books" value="322">Books</option>';
+                                        <option data-category-name="Food" value="323">Food</option>';
+                                        <option data-category-name="Apartments" value="324">Apartments</option>';
+                                        <option data-category-name="Telecommunication" value="325">Telecommunication</option>';
+                                        <option data-category-name="Health" value="326">Health</option>';
+                                        <option data-category-name="Clothes" value="327">Clothes</option>';
+                                        <option data-category-name="Hygiene" value="328">Hygiene</option>';
+                                        <option data-category-name="Kids" value="329">Kids</option>';
+                                        <option data-category-name="Recreation" value="330">Recreation</option>';
+                                        <option data-category-name="Trip" value="331">Trip</option>';
+                                        <option data-category-name="Savings" value="332">Savings</option>';
+                                        <option data-category-name="For Retirement" value="333">For Retirement</option>';
+                                        <option data-category-name="Debt Repayment" value="334">Debt Repayment</option>';
+                                        <option data-category-name="Gift" value="335">Gift</option>';
+                                        <option data-category-name="Others" value="336">Others</option>';
+                                    </select>
+                                </div>
+
+                                <div class="inputPanel">
+                                    <select class="form-control" name="payment_method_id">
+                                        <option value="61">Cash</option>';
+                                        <option value="62">Debit Card</option>';
+                                        <option value="63">Credit Card</option>';
+                                    </select>
+                                </div>
+
+                                <div class="inputPanel">
+                                    <input type="text" name="comment" class="form-control" placeholder="Add comment to the income" value="">
+                                </div>
+                                <input type="submit" class="addButton" value="ADD">
+                                <a href="#"><input type="button" class="cancelButton" value="CANCEL"></a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
+</body>
+
+</html>

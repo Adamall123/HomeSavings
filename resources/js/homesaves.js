@@ -11,11 +11,7 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function(){
-   $("#mainPage").click(function(){
-       $('main').load("mainPage.html");
-   })
-});
+
 
 $(document).ready(function(){
    $("#logout").click(function(){
@@ -24,7 +20,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-   $("#mainPage").click(function(){
+   $(".mainPage").click(function(){
        $('main').load("mainPage.html"); 
    })
 });
@@ -32,5 +28,11 @@ $(document).ready(function(){
 $(document).ready(function(){
    $(".income").click(function(){
        $('main').load("income.html"); 
+   })
+});
+
+$(document).ready(function(){
+   $(".expence").click(function(){
+       $('main').load("expence.html"); 
    })
 });

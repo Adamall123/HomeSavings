@@ -8,10 +8,10 @@
 
 <body>
     <div class="topnav" id="myTopnav">
-        <a id="mainPage" href="#index.html">Home</a>
+        <a class="mainPage" href="#index.html">Home</a>
         <a href="#Balance">Balance</a>
-        <a id="income" href="#index.html" class="active">Add Income</a>
-        <a href="#Expence">Add Expence</a>
+        <a class="income active" href="#index.html">Add Income</a>
+        <a class="expence" href="#index.html">Add Expence</a>
         <div class="topnav-right">
             <a href="#Settings">Setting</a>
             <a id="logout" href="#index.html">Logout</a>
@@ -20,46 +20,44 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="text-center-income">
-                    <div id="incomePanel">
-                        <div id="upperIncomePanel">
-                            <div id="upperIncomePanelText">
-                                Adding Income
-                            </div>
-                        </div>
-                        <div class="lowerPanel" style="height: 355px;">
-                            <form>
-                                <div class="inputPanel">
-                                    <input type="number" name="amount" step="0.01" placeholder="0.00" min="0.00" max="99999999.99" class="form-control" value="">
-                                </div>
 
-                                <div class="inputPanel">
-                                    <input type="date" name="date" class="form-control" id="enterDate" value="">
-                                </div>
 
-                                <div class="inputPanel">
-                                    <select class="form-control" name="income_category_id">
-                                        <option value="96">Salary</option>';
-                                        <option value="97">Bank Interest</option>';
-                                        <option value="98">Allegro</option>';
-                                        <option value="99">Others</option>';
-                                    </select>
-                                </div>
-
-                                <div class="inputPanel">
-                                    <input type="text" name="comment" class="form-control" placeholder="Add comment to the income" value="">
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+    <div id="incomePanel">
+        <div id="upperIncomePanel">
+            <div id="upperIncomePanelText">
+                Adding Income
             </div>
 
         </div>
+        <div class="lowerPanel" style="height: 355px;">
+            <form>
+                <div class="inputPanel">
+                    <input type="number" name="amount" step="0.01" placeholder="0.00" min="0.00" max="99999999.99" class="form-control" value="">
+                </div>
+
+                <div class="inputPanel">
+                    <input type="date" name="date" class="form-control" id="enterDate" value="">
+                </div>
+
+                <div class="inputPanel">
+
+                    <select class="form-control" name="income_category_id">
+                        <option value="96">Salary</option>';
+                        <option value="97">Interest</option>';
+                        <option value="98">Allegro</option>';
+                        <option value="99">Default</option>';
+                    </select>
+                </div>
+
+                <div class="inputPanel">
+                    <input type="text" name="comment" class="form-control" placeholder="Add comment to the income" value="">
+                </div>
+                <input type="submit" class="addButton" value="ADD">
+                <a href="#"><input type="button" class="cancelButton" value="CANCEL"></a>
+            </form>
+        </div>
     </div>
+
 
     <script>
         function myFunction() {
