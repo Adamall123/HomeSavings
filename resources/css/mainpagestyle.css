@@ -36,8 +36,15 @@
     display: block;
   }
 }
-
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+  float: right;
+}
 @media screen and (max-width: 600px) {
+    .topnav {
+    margin-bottom: 10px;
+}
+
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
     position: absolute;
@@ -49,11 +56,12 @@
     display: block;
     text-align: left;
   }
+   .topnav-right {
+  float: left;
+} 
+    
 }
-/* Right-aligned section inside the top navigation */
-.topnav-right {
-  float: right;
-}
+
 
 
 .text-center{

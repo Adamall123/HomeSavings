@@ -9,15 +9,12 @@ $(document).ready(function(){
        $('main').load("login.html");
    })
 });
-
-
-
-
 $(document).ready(function(){
    $("#logout").click(function(){
        $('main').load("login.html"); 
    })
 });
+
 
 $(document).ready(function(){
    $(".mainPage").click(function(){
@@ -34,5 +31,10 @@ $(document).ready(function(){
 $(document).ready(function(){
    $(".expence").click(function(){
        $('main').load("expence.html"); 
+   })
+});
+$(document).ready(function(){
+   $(".settings").click(function(){
+       $('main').load("settings.html"); 
    })
 });

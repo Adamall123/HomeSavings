@@ -1,0 +1,106 @@
+#profileDetails{
+    min-height: 145px;
+    border: 1px solid #38b6ff;
+    border-radius: 10px;
+    background-color: #82cafd;
+}
+#profileDetailsList{
+    padding-top: 40px;
+    list-style: none;
+}
+dl, ol, ul{
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+#profileSetting{
+    min-height: 145px;
+    border-radius: 10px;
+     
+}
+#profileSettingsList{
+    list-style: none;
+    width: 100%;
+    
+}
+a li{
+    width: 100%;
+    background-color: #82cafd;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+a {
+    text-decoration: unset;
+    color:white;
+}
+
+a:hover{
+    text-decoration: unset;
+    color: white;
+}
+
+.Category{
+    margin-top: 50px;
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+.Category Header{
+    padding-bottom: 10px;
+}
+.CategoryHeader {
+    text-align: center;
+    font-size: 30px;
+    line-height: 175%;
+    width: 100%;
+    height: 60px;
+    font-weight: 600;
+    border: 1px solid #38b6ff;
+    border-radius: 10px;
+    background-color:#238be3;
+}
+.CategoryColumn{
+    margin-top: 5px;
+    width: 100%;
+    border-radius: 10px;
+}
+.CategoryRow{
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+.Category .CategoryColumn .CategoryRow li {
+    background-color:#6f6f6f;
+    text-align: center;
+    padding-left: 40px;
+    margin-bottom: 2px;
+    border-radius: 25px;
+}
+.editDeleteSpan{
+    float: right;
+    margin-right: 15px;
+    margin-left: -45px;
+}
+.CategoryFooter{
+    clear: both;
+    text-align: center;
+    width: 100%;
+    height: 40px;
+    border: 1px solid #38b6ff;
+    border-radius: 25px;
+    line-height: 150%;
+    margin-bottom: 5px;
+    background-color: #238be3;
+}
+
+
+@media screen and (max-width: 990px) {
+  a li{
+    border-radius: 10px;
+    margin-top:10px;
+    text-align: left;
+}
+}
+
