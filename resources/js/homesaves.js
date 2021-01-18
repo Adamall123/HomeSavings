@@ -38,3 +38,8 @@ $(document).ready(function(){
        $('main').load("settings.html"); 
    })
 });
+$(document).ready(function(){
+   $(".balance").click(function(){
+       $('main').load("balance.html"); 
+   })
+});

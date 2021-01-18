@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="resources/js/homesaves.js"></script>
+</head>
+
+<body>
+    <div class="topnav" id="myTopnav">
+        <a class="mainPage" href="#index.html">Home</a>
+        <a class="balance active" href="#index.html">Balance</a>
+        <a class="income" href="#index.html">Add Income</a>
+        <a class="expence" href="#index.html">Add Expence</a>
+        <div class="topnav-right">
+             <a class="settings" href="#index.html">Setting</a>
+            <a id="logout" href="#index.html">Logout</a>
+        </div>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    
+    <div class="container">
+        <div id="setDateRangeForm">
+            <form id="dateForm" method="post" action="">
+                <ul id="setDateRangeList">
+                    <li>
+                        <span style="font-size: 20px;">Set date range of your transactions:</span>
+                    </li>
+                    <hr style="background-color: black;">
+                    <li>
+                        <input type="radio" class="timePeriodRadio" id="currentMonthRadio">
+                        <label for="currentMonthRadio">Current Month</label>
+                    </li>
+                    <li>
+                        <input type="radio" class="timePeriodRadio" id="previousMonthRadio">
+                        <label for="currentMonthRadio">Current Month</label>
+                    </li>
+                    <li>
+                        <input type="radio" class="timePeriodRadio" id="currentYearRadio">
+                        <label for="currentMonthRadio">Current Year</label>
+                    </li>
+                    <li>
+                        <input type="radio" class="timePeriodRadio" id="totalTimeRadio">
+                        <label for="currentMonthRadio">Total time</label>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-warning">Other Date Range</button>
+                    </li>
+                    <li id="otherPeriodOfTimeLabel">2021-01-01 : 2021-01-18</li>
+                </ul>
+            </form>
+        </div>
+        
+        <section>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="Category">
+                        <header>
+                            <div class="CategoryHeader">Incomes</div>
+                        </header>
+                        <div class="CategoryColumn">
+                            <ul class="CategoryRow" id="incomes">
+                            <li><a>Food: 200.00</a></li>
+                                 <li><a>show/hide: example data: 2021-01-15 | 200.00 | Cash</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                     <div class="Category">
+                        <header>
+                            <div class="CategoryHeader">Expences</div>
+                        </header>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div style="clear: both;"></div>
+        <section>
+            <div id="balanceWindow" style="background-color: green;">
+            your balance is: 0.00 (change communication depending on status account)
+                <br>
+                Well done!
+            </div>
+        </section>
+    
+        <section>
+            <div class="row" style="margin-bottom: 100px;">
+                <div class="col-xl-6">
+                    <div id="piechar_3d_incomes">
+                        <div style="position: relative;"><div dir="ltr" style="position: relative; width: 538px; height: 438px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="538" height="438" aria-label="A chart." style="overflow: hidden;"><defs id="_ABSTRACT_RENDERER_ID_0"></defs><rect x="0" y="0" width="538" height="438" stroke="none" stroke-width="0" fill="#696969"></rect><g><text text-anchor="start" x="40" y="32" font-family="Arial" font-size="20" font-weight="bold" stroke="none" stroke-width="0" fill="#fefefe">Incomes</text><rect x="40" y="15" width="498" height="20" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><text text-anchor="middle" x="289" y="248.2" font-family="Arial" font-size="12" stroke="none" stroke-width="0" fill="#000000">No data</text><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Income Item</th><th>Amount</th></tr></thead><tbody></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 448px; left: 548px; white-space: nowrap; font-family: Arial; font-size: 12px;">No data</div><div></div></div>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <div style="position: relative;"><div dir="ltr" style="position: relative; width: 538px; height: 438px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="538" height="438" aria-label="A chart." style="overflow: hidden;"><defs id="_ABSTRACT_RENDERER_ID_1"></defs><rect x="0" y="0" width="538" height="438" stroke="none" stroke-width="0" fill="#696969"></rect><g><text text-anchor="start" x="40" y="32" font-family="Arial" font-size="20" font-weight="bold" stroke="none" stroke-width="0" fill="#fefefe">Expenses</text><rect x="40" y="15" width="498" height="20" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><text text-anchor="middle" x="289" y="248.2" font-family="Arial" font-size="12" stroke="none" stroke-width="0" fill="#000000">No data</text><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Expense Item</th><th>Amount</th></tr></thead><tbody></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 448px; left: 548px; white-space: nowrap; font-family: Arial; font-size: 12px;">No data</div><div></div></div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
+</body>
+
+</html>

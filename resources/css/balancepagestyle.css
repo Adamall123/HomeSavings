@@ -1,0 +1,45 @@
+#setDateRangeForm{
+    background-color: #0a949a;
+    margin: 30px auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 350px;
+    border-radius: 10px;
+    border: 1px solid #38b6ff;
+    font-size: 18px;
+}
+form {
+    display: block;
+    margin-top: 0em;
+}
+#setDateRangeList{
+    list-style: none;
+    margin-bottom: 15px;
+
+    border-radius: 10px;
+    padding: 15px;
+}
+section .Category .CategoryColumn .CategoryRow li {
+    background-color: #d18700;
+}
+#balanceWindow {
+    height: 120px;
+    width: 100%;
+    margin: 0 auto 20px auto;
+    border-radius: 10px;
+    border: 1px solid black;
+    font-size: 25px;
+    line-height: 200%;
+    text-align: center;
+    padding: 0 10px;
+}
+#piechart_3d_incomes {
+    height: 440px;
+    width: 100%;
+    margin: 20px 0;
+    border: 1px solid black;
+}
+
+section .row .Category .CategoryHeader {
+    background-color: #d18700;
+}
