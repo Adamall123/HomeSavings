@@ -1,9 +1,15 @@
-<html>
-
+<!DOCTYPE html> 
+<html lang="en">  
 <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <script src="resources/js/balance.js"></script>
     <script src="resources/js/homesaves.js"></script>
+    
+
+    <title>HomeSavings</title>
 </head>
 
 <body>
@@ -23,12 +29,12 @@
     
     <div class="container">
         <div id="setDateRangeForm">
-            <form id="dateForm" method="post" action="">
+            <form id="dateForm" method="post">
                 <ul id="setDateRangeList">
-                    <li>
+                    <li >
                         <span style="font-size: 20px;">Set date range of your transactions:</span>
                     </li>
-                    <hr style="background-color: white;">
+                    <li class="line"> </li>
                     <li>
                         <input type="radio" class="timePeriodRadio" id="currentMonthRadio">
                         <label for="currentMonthRadio">Current Month</label>
@@ -58,7 +64,7 @@
                 <div class="col-lg-6">
                     <div class="Category">
                         <header>
-                            <div class="CategoryHeader">Incomes</div>
+                            <div class="CategoryHeader"><h4>Incomes</h4></div>
                         </header>
                         <div class="CategoryColumn">
                             <ul class="CategoryRow" id="incomes">
@@ -71,7 +77,7 @@
                 <div class="col-lg-6">
                      <div class="Category">
                         <header>
-                            <div class="CategoryHeader">Expences</div>
+                            <div class="CategoryHeader"><h4>Expences</h4></div>
                         </header>
                     </div>
                 </div>
@@ -80,23 +86,22 @@
         <div style="clear: both;"></div>
         <section>
             <div id="balanceWindow" style="background-color: green;">
-            your balance is: 0.00 (change communication depending on status account)
+            <h6>
+                your balance is: 0.00 (change communication depending on status account)
                 <br>
                 Well done!
+                </h6>
             </div>
         </section>
     
         <section>
-            <div class="row" style="margin-bottom: 100px;">
+            <h6>Results</h6>
+            <div class="row">
                 <div class="col-xl-6">
-                    <div id="piechar_3d">
-                        <div style="position: relative;"><div dir="ltr" style="position: relative; width: 538px; height: 438px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="538" height="438" aria-label="A chart." style="overflow: hidden;"><defs id="_ABSTRACT_RENDERER_ID_0"></defs><rect x="0" y="0" width="538" height="438" stroke="none" stroke-width="0" fill="#696969"></rect><g><text text-anchor="start" x="40" y="32" font-family="Arial" font-size="20" font-weight="bold" stroke="none" stroke-width="0" fill="#fefefe">Incomes</text><rect x="40" y="15" width="498" height="20" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><text text-anchor="middle" x="289" y="248.2" font-family="Arial" font-size="12" stroke="none" stroke-width="0" fill="#000000">No data</text><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Income Item</th><th>Amount</th></tr></thead><tbody></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 448px; left: 548px; white-space: nowrap; font-family: Arial; font-size: 12px;">No data</div><div></div></div>
-                    </div>
+                     <div id="piechart_3d_income"></div>
                 </div>
                 <div class="col-xl-6">
-                     <div id="piechar_3d">
-                    <div style="position: relative;"><div dir="ltr" style="position: relative; width: 538px; height: 438px;"><div aria-label="A chart." style="position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;"><svg width="538" height="438" aria-label="A chart." style="overflow: hidden;"><defs id="_ABSTRACT_RENDERER_ID_1"></defs><rect x="0" y="0" width="538" height="438" stroke="none" stroke-width="0" fill="#696969"></rect><g><text text-anchor="start" x="40" y="32" font-family="Arial" font-size="20" font-weight="bold" stroke="none" stroke-width="0" fill="#fefefe">Expenses</text><rect x="40" y="15" width="498" height="20" stroke="none" stroke-width="0" fill-opacity="0" fill="#ffffff"></rect></g><text text-anchor="middle" x="289" y="248.2" font-family="Arial" font-size="12" stroke="none" stroke-width="0" fill="#000000">No data</text><g></g></svg><div aria-label="A tabular representation of the data in the chart." style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><table><thead><tr><th>Expense Item</th><th>Amount</th></tr></thead><tbody></tbody></table></div></div></div><div aria-hidden="true" style="display: none; position: absolute; top: 448px; left: 548px; white-space: nowrap; font-family: Arial; font-size: 12px;">No data</div><div></div></div>
-                    </div>
+                     <div id="piechart_3d_expence"></div>
                 </div>
             </div>
         </section>
