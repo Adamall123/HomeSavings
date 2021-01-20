@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
     <title>HomeSavings</title>
     <script src="resources/js/homesaves.js"></script>
-     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+     <script src="https://www.gstatic.com/charts/loader.js"></script>
     
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -36,6 +36,23 @@
             <h1>HomeSavings</h1>
         </div>
     </header>
+    <nav>
+     <div class="topnav" id="myTopnav">
+        <a class="mainPage" ><i class="fas fa-home"></i> Home</a>
+        <a class="balance" ><i class="fas fa-chart-pie"></i> Balance</a>
+        <a class="income " ><i class="fas fa-coins"></i> Add Income</a>
+        <a class="expence"><i class="fas fa-shopping-cart"></i> Add Expence</a>
+       
+             <a class="settings topnav-right"><i class="fas fa-cogs"></i> Setting</a>
+            <a class="logout" ><i class="fas fa-sign-out-alt"></i> Logout</a>
+      
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+    </nav>
+   
+    
     <main>
         <br><br><br><br><br>
         <div class="container">
@@ -91,15 +108,25 @@
             </div>
         </div>
     </main>
+   
     <footer>
 
-        <div class="siteFooter">
+        <div class="navbar fixed-bottom siteFooter">
             Personal Budget Manager | © Adam Wojdyło | 2021
         </div>
 
     </footer>
 
-
+     <script>
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+    </script>
     <script src="vendors/js/bootstrap.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

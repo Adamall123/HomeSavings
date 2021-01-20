@@ -13,7 +13,7 @@
         var options = {
             backgroundColor: 'transparent',
             title: 'Income',
-            width: 700,
+            width: 500,
             height: 400,
             pieSliceText: 'value',
             is3D: true,
@@ -44,7 +44,7 @@
          var options = {
              backgroundColor: 'transparent',
              title: 'Expence',
-             width: 700,
+             width: 500,
              height: 400,
              pieSliceText: 'value',
              is3D: true,
