@@ -8,6 +8,7 @@ html {
     color: white;
     font-family: 'Libre Baskerville', 'Arial', sans-serif;
     min-height: 100%;
+   
 }
 a{
     cursor: pointer;
@@ -26,9 +27,7 @@ header {
     padding-bottom: 130px;
 }
 
-nav{
-    display:none;
-}
+
 
 #overlay {
 
@@ -93,7 +92,6 @@ header .container  h1 {
 .siteFooter{
     
     bottom:0;
-      
     line-height: 200%;
     background-color: #225071;
     font-size: 15px;

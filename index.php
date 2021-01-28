@@ -1,3 +1,7 @@
+<?php
+	session_start();
+	unset($_SESSION['mistake']); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,21 +36,7 @@
             <h1>HomeSavings</h1>
         </div>
     </header>
-    <nav>
-     <div class="topnav" id="myTopnav">
-        <a class="mainPage" ><i class="fas fa-home"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie"></i> Balance</a>
-        <a class="income " ><i class="fas fa-coins"></i> Add Income</a>
-        <a class="expence"><i class="fas fa-shopping-cart"></i> Add Expence</a>
-       
-             <a class="settings topnav-right"><i class="fas fa-cogs"></i> Setting</a>
-            <a class="logout" ><i class="fas fa-sign-out-alt"></i> Logout</a>
-      
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-            <i class="fa fa-bars"></i>
-        </a>
-    </div>
-    </nav>
+    
    
     
     <main>
@@ -58,7 +48,7 @@
                     <p>This is a simple, intuitive tool for everyday use.This website allows you to control incomes and expences.You can display all your statistics to optimize managin your money.</p>
 
                     <button id="getStarted" type="button" class="btn btn-warning button1">Get started</button>
-                    <button id="login" type="button" class="btn btn-warning button1">Login</button>
+					<a href = "login.php"type="button" class="btn btn-warning button1" >login</a>
                 </div>
                 <div class="col-md-6">
                     <!-- <div id="office"><img src="resources/img/money3.png" alt="statistics" /></div> -->
@@ -113,18 +103,8 @@
 
     </footer>
 
-     <script>
-        function myFunction() {
-            var x = document.getElementById("myTopnav");
-            if (x.className === "topnav") {
-                x.className += " responsive";
-            } else {
-                x.className = "topnav";
-            }
-        }
-    </script>
-    <script src="vendors/js/bootstrap.min.js"></script>
-
+     
+        <script src="vendors/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
