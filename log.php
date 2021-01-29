@@ -20,29 +20,30 @@
 		
 		//encje html'a 
 		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
-		$login = htmlentities($password, ENT_QUOTES, "UTF-8");
-		
+
 		if ($result = @$polaczenie->query(
-		sprintf("SELECT * FROM users WHERE username = '%s' AND password = '%s'",
-		mysqli_real_escape_string($polaczenie,$login),
-		mysqli_real_escape_string($polaczenie,$password))))
+		sprintf("SELECT * FROM users WHERE username = '%s'",
+		mysqli_real_escape_string($polaczenie,$login))))
 		{
 			$amount_of_users = $result->num_rows;
 			if($amount_of_users > 0){
 				
-				$_SESSION['loggedin'] = true;
-				
 				$row = $result->fetch_assoc();
-				$_SESSION['id'] = $row['id'];
-				$_SESSION['user']= $row['username'];
 				
-				unset($_SESSION['mistake']); //delete variable from session when logged in 
-				$result->close(); //remove from ram not needed anymore row of result
-				
-				header('Location: mainPage.php');
-				
+				if(password_verify($password,$row['password']))
+				{
+					$_SESSION['loggedin'] = true;
+					$_SESSION['id'] = $row['id'];
+					$_SESSION['user']= $row['username'];
+					unset($_SESSION['mistake']); //delete variable from session when logged in 
+					$result->close(); //remove from ram not needed anymore row of result
+					header('Location: mainPage.php');
+				}
+				else {
+					$_SESSION['mistake'] = '<span style="color:red"> Wrong login or password! </span>';
+					header('Location: login.php');
+				}
 			} else {
-				
 				$_SESSION['mistake'] = '<span style="color:red"> Wrong login or password! </span>';
 				header('Location: login.php');
 			}

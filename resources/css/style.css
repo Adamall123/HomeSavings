@@ -84,7 +84,6 @@ header .container  h1 {
     font-size: 26px;
 }
 
-
 .row p {
     text-align: justify;
 }
@@ -97,6 +96,7 @@ header .container  h1 {
     font-size: 15px;
     height: 40px;
     width: 100%;
+	padding: 10px;
 }
 @media screen and (max-width: 600px) {
     body{
@@ -472,4 +472,10 @@ a:hover{
 }
 }
 
+.error {
+	color: red;
+	font-size: 14px;
+	margin-top: 10xp;
+	margin-bottom: 10px;
+}
 

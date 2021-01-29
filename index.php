@@ -9,7 +9,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -36,9 +35,6 @@
             <h1>HomeSavings</h1>
         </div>
     </header>
-    
-   
-    
     <main>
         <br><br><br><br><br>
         <div class="container">
@@ -46,8 +42,7 @@
                 <div class="col-md-6">
                     <h1>Make money and be funny </h1>
                     <p>This is a simple, intuitive tool for everyday use.This website allows you to control incomes and expences.You can display all your statistics to optimize managin your money.</p>
-
-                    <button id="getStarted" type="button" class="btn btn-warning button1">Get started</button>
+					<a href = "register.php"type="button" class="btn btn-warning button1" >get Started!</a>
 					<a href = "login.php"type="button" class="btn btn-warning button1" >login</a>
                 </div>
                 <div class="col-md-6">
@@ -96,11 +91,7 @@
     </main>
    
     <footer>
-
-        <div class="navbar fixed-bottom siteFooter">
-            Personal Budget Manager | © Adam Wojdyło | 2021
-        </div>
-
+		
     </footer>
 
      
