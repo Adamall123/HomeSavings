@@ -1,18 +1,160 @@
+<?php
+	//send logged in id user?
+	session_start();
+	$user_loggedin_id =  $_SESSION['id'];
+	require_once "connect.php";
+	mysqli_report(MYSQLI_REPORT_STRICT);
+	try{
+		$connection = new mysqli($host, $db_user,$db_password,$db_name);
+		if($connection->connect_errno!=0){
+				throw new Exception(mysqli_connect_errno());
+		}else{
+			$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+			$result = mysqli_query($connection, $sql);
+			$incomes = array(); 
+			$incomes_id = array(); 
+			if(mysqli_num_rows($result) > 0){
+				while($row = mysqli_fetch_assoc($result)) {
+					$incomes_id[] = $row['id'];
+					$incomes[] = $row['name']; 
+				}
+			}
+			$sql = "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+			$result = mysqli_query($connection, $sql);
+			$expences = array(); 
+			if(mysqli_num_rows($result) > 0){
+				while($row = mysqli_fetch_assoc($result)) {
+					$expences[] = $row['name']; 
+				}
+			}
+			$sql = "SELECT name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+			$result = mysqli_query($connection, $sql);
+			$payment_methods = array(); 
+			if(mysqli_num_rows($result) > 0){
+				while($row = mysqli_fetch_assoc($result)) {
+					$payment_methods[] = $row['name']; 
+				}
+			}
+			if(isset($_POST['updateincome'])){
+					unset($_POST['updateincome']);
+					$all_OK = true;
+					$current_id = $_POST['editincome'];
+					echo $current_id;
+					exit();
+					//ID OF SELECTED ITEM
+					//EDITiNCOMEID 
+					$editincome = $_POST['editincome'];
+					$currentIncomeID = 0;
+					$result = $connection->query("SELECT id FROM incomes_category_assigned_to_users WHERE name='$editincome' AND user_id = '$user_loggedin_id'  ");
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							$currentIncomeID =  $row["id"];
+							
+						}
+					}
+					if(!$result) throw new Exception($connection->error);
+					$amount_of_category_income = $result->num_rows;
+					echo "first";
+					if($amount_of_category_income == 0){
+						
+						echo "here";
+						echo $currentIncomeID;
+						$editincome = "Sallary";
+						if($connection->query("UPDATE incomes_category_assigned_to_users SET name='$editincome' WHERE user_id = '$user_loggedin_id' AND id=' $currentIncomeID' "))
+						{
+							echo "updated";
+							echo $currentIncomeID;
+							exit(); 
+							echo '<script type="text/javascript">alert("The new income has been created");</script>';
+							//if accepted then go to location 
+							
+							header('Location: settings.php');
+						
+						}
+					}
+					
+				}
+				else {
+					throw new Exception($connection->error);
+				}
+				
+			if(isset($_POST['insertincome'])){
+				
+				unset($_POST['insertincome']);
+					$all_OK = true;
+					$fincome = $_POST['fincome'];
+					$result = $connection->query("SELECT name FROM incomes_category_assigned_to_users WHERE name='$fincome' AND user_id = '$user_loggedin_id'  ");
+					if(!$result) throw new Exception($connection->error);
+					$amount_of_category_income = $result->num_rows;
+					if($amount_of_category_income > 0){
+						$all_OK = false;
+						echo '<script type="text/javascript">alert("The written category exists in your app!");</script>';
+					}
+					if($all_OK){
+						if($connection->query("INSERT INTO incomes_category_assigned_to_users VALUES(NULL,'$user_loggedin_id','$fincome')"))
+						{
+							
+							echo '<script type="text/javascript">alert("The new income has been created");</script>';
+							//if accepted then go to location 
+							header('Location: settings.php');
+						}
+					}
+				}
+				else {
+					throw new Exception($connection->error);
+				}
+				
+				
+			$connection->close();
+		}
+	}catch(Exception $e){
+		
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
-    <script src="resources/js/homesaves.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet">
     <title>HomeSavings</title>
+    <script src="resources/js/homesaves.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
-<body>
-
+<body>	
+		
+		
+	<header>
+        <div class="container">
+		<a href="index.php">
+            <div id="overlay"><img src="resources/img/logoTree.gif" alt="logo" /></div>
+            <h1>HomeSavings</h1>
+		</a>
+        </div>
+	</header>
+	<div class="topnav" id="myTopnav" >
+       <a href="mainPage.php" class="mainPage" ><i class="fas fa-home"></i> Home</a>
+        <a class="balance" ><i class="fas fa-chart-pie"></i> Balance</a>
+        <a class="income " ><i class="fas fa-coins"></i> Add Income</a>
+        <a class="expence"><i class="fas fa-shopping-cart"></i> Add Expence</a>
+       
+             <a href="settings.php" class="settings topnav-right"><i class="fas fa-cogs"></i> Setting</a>
+            <a class="logout" href="logout.php" ><i class="fas fa-sign-out-alt"></i> Logout</a>
+      
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+	<main>
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -23,7 +165,7 @@
                         </div>
                         <div class="col">
                             <ul id="profileDetailsList">
-                                <li>Name: Adam</li>
+                                <li>Nick: Adam</li>
                                 <li>Email: adam@gmail.com</li>
                             </ul>
                         </div>
@@ -33,8 +175,8 @@
             <div class="col-lg-6">
                 <div id="profileSetting">
                     <ul id="profileSettingsList">
-                            <li>Change Name</li>
-                            <li>Change Surname</li>
+                            <li>Change Nick</li>
+                            <li>Change E-mail</li>
                             <li>Change Password</li>
                     </ul>
                 </div>
@@ -42,45 +184,36 @@
         </div>
         <div class="row">
             <div class="col-lg-4">
-                <div class="Category">
-                    <header>
-                        <div class="CategoryHeader">Incomes Categories</div>
+                <div class="Category" >
+                    <header >
+						<button style="color:white" class="CategoryHeader" onclick="showhide()">Incomes Categories
+						<i style="color:white"  class="fas fa-arrow-down"></i>
+						</button>
+
                     </header>
-                    <div class="CategoryColumn">
+                    <div class="CategoryColumn" id="incomes">
                         <ul class="CategoryRow">
-                            <li> Salary
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Interest
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Allegro
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Others
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
+									<?php
+						$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+						$result = mysqli_query($connection, $sql);
+						while($row=mysqli_fetch_array($result)){
+							?>
+							<li>
+								<?php echo ucwords($row['name']); ?>
+								<div class='editDeleteSpan'>
+									<a href="#editIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+									<a href="#delIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
+									<?php include('button.php'); ?>
+								</div>
+							</li>
+							<?php
+							}
+							?>
                         </ul>
                     </div>
                     <footer>
-                        <a href="#">
-                            <div class="CategoryFooter">
-                                Add new category
-                            </div>
-                        </a>
-                    </footer>
+						<span><a  href="#addnew" data-toggle="modal" type="button" class="CategoryFooter">Add New Income</a></span>
+					</footer>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -90,98 +223,26 @@
                     </header>
                     <div class="CategoryColumn">
                         <ul class="CategoryRow">
-                            <li> Transport
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Books
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Food
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Apartaments
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Health
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Clothes
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Hygiene
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Kids
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Recreation
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Trip
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Savings
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> For Retirement
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Debt Repayment
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Others
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
+								<?php
+						$sql = "SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+						$result = mysqli_query($connection, $sql);
+						while($row=mysqli_fetch_array($result)){
+							?>
+							<li>
+								<?php echo ucwords($row['name']); ?>
+								<div class='editDeleteSpan'>
+									<a href="#editExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+									<a href="#delExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
+									<?php include('button.php'); ?>
+								</div>
+							</li>
+							<?php
+							}
+							?>
                         </ul>
                     </div>
                     <footer>
-                        <a href="#">
-                            <div class="CategoryFooter">
-                                Add new category
-                            </div>
-                        </a>
+                        <span><a  href="#addnewexpence" data-toggle="modal" type="button" class="CategoryFooter">Add New Expence</a></span>
                     </footer>
                 </div>
             </div>
@@ -192,40 +253,37 @@
                     </header>
                     <div class="CategoryColumn">
                         <ul class="CategoryRow">
-                            <li> Cash
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Debit Card
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
-                            <li> Credit Card
-                                <div class="editDeleteSpan">
-                                    <a href="#"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="far fa-trash-alt"></i></a>
-                                </div>
-                            </li>
+							<?php
+							$sql = "SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+							$result = mysqli_query($connection, $sql);
+							while($row=mysqli_fetch_array($result)){
+								?>
+								<li>
+									<?php echo ucwords($row['name']); ?>
+									<div class='editDeleteSpan'>
+										<a href="#editPaymentModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+										<a href="#delPaymentModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
+										<?php include('button.php'); ?>
+									</div>
+								</li>
+								<?php
+								}
+							?>
+              
                         </ul>
                     </div>
                     <footer>
-                        <a href="#">
-                            <div class="CategoryFooter">
-                                Add New Method
-                            </div>
-                        </a>
+                       <span><a  href="#addnewpaymentmethod" data-toggle="modal" type="button" class="CategoryFooter">Add New Method</a></span>
                     </footer>
                 </div>
             </div>
         </div>
+		<?php include('add_modal.php'); ?>
     </div>
-
+	</main>
 
     <script>
+		
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -234,8 +292,30 @@
                 x.className = "topnav";
             }
         }
+		function showhide() {
+		  var x = document.getElementById("incomes");
+		  if (x.style.display === "none") {
+			x.style.display = "block";
+		  } else {
+			x.style.display = "none";
+		  }
+		}
+		function validateForm() {
+		  var x = document.forms["insert_form"]["fincome"].value;
+		  if (x == "") {
+			alert("Category Name must be filled out");
+			return false;
+		  }
+		}
+		
+		
+		
+
+		
     </script>
-    
+     <script src="vendors/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 
 </html>

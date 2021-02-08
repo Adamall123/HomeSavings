@@ -3,6 +3,8 @@
 		//pop up window
 		//delete global session
 	if((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == true)){
+		//display id loggedin user
+		
 		header('Location: mainPage.php');
 		exit();
 	}

@@ -4,7 +4,7 @@
 	if (isset($_POST['email'])){
 		$all_OK = true; 
 		$nick = $_POST['username'];
-		if(strlen($nick) < 3 || strlen($nick) > 20) {
+		if((strlen($nick) < 3) || (strlen($nick) > 20)) {
 			$all_OK = false;
 			$_SESSION['e_nick'] = "Nick must have between 3 and 20 characters!";
 		}

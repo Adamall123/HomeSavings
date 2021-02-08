@@ -74,6 +74,7 @@ $(document).ready(function () {
         //issue loadging page login.html and after display briefly page changing div conent and displaying what it wanted to being displayed
     })
 });
+/*
 $(document).ready(function () {
     $(".settings").click(function () {
         $('main').load("settings.php");
@@ -85,6 +86,7 @@ $(document).ready(function () {
         //issue loadging page login.html and after display briefly page changing div conent and displaying what it wanted to being displayed
     })
 });
+*/
 $(document).ready(function () {
     $(".balance").click(function () {
         $('main').load("balance.php");

@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+
 html {
     color: white;
     font-family: 'Libre Baskerville', 'Arial', sans-serif;
@@ -238,7 +239,7 @@ section .Category .CategoryColumn .CategoryRow li {
     padding: 0 10px;
 }
 
-section .row .Category .CategoryHeader {
+.row button .Category .CategoryHeader {
     background-color: #d18700;
 }
 .line{
@@ -478,4 +479,5 @@ a:hover{
 	margin-top: 10xp;
 	margin-bottom: 10px;
 }
+
 
