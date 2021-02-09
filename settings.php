@@ -35,78 +35,7 @@
 					$payment_methods[] = $row['name']; 
 				}
 			}
-			if(isset($_POST['updateincome'])){
-					unset($_POST['updateincome']);
-					$all_OK = true;
-					$current_id = $_POST['editincome'];
-					echo $current_id;
-					exit();
-					//ID OF SELECTED ITEM
-					//EDITiNCOMEID 
-					$editincome = $_POST['editincome'];
-					$currentIncomeID = 0;
-					$result = $connection->query("SELECT id FROM incomes_category_assigned_to_users WHERE name='$editincome' AND user_id = '$user_loggedin_id'  ");
-					if ($result->num_rows > 0) {
-						// output data of each row
-						while($row = $result->fetch_assoc()) {
-							$currentIncomeID =  $row["id"];
-							
-						}
-					}
-					if(!$result) throw new Exception($connection->error);
-					$amount_of_category_income = $result->num_rows;
-					echo "first";
-					if($amount_of_category_income == 0){
-						
-						echo "here";
-						echo $currentIncomeID;
-						$editincome = "Sallary";
-						if($connection->query("UPDATE incomes_category_assigned_to_users SET name='$editincome' WHERE user_id = '$user_loggedin_id' AND id=' $currentIncomeID' "))
-						{
-							echo "updated";
-							echo $currentIncomeID;
-							exit(); 
-							echo '<script type="text/javascript">alert("The new income has been created");</script>';
-							//if accepted then go to location 
-							
-							header('Location: settings.php');
-						
-						}
-					}
-					
-				}
-				else {
-					throw new Exception($connection->error);
-				}
-				
-			if(isset($_POST['insertincome'])){
-				
-				unset($_POST['insertincome']);
-					$all_OK = true;
-					$fincome = $_POST['fincome'];
-					$result = $connection->query("SELECT name FROM incomes_category_assigned_to_users WHERE name='$fincome' AND user_id = '$user_loggedin_id'  ");
-					if(!$result) throw new Exception($connection->error);
-					$amount_of_category_income = $result->num_rows;
-					if($amount_of_category_income > 0){
-						$all_OK = false;
-						echo '<script type="text/javascript">alert("The written category exists in your app!");</script>';
-					}
-					if($all_OK){
-						if($connection->query("INSERT INTO incomes_category_assigned_to_users VALUES(NULL,'$user_loggedin_id','$fincome')"))
-						{
-							
-							echo '<script type="text/javascript">alert("The new income has been created");</script>';
-							//if accepted then go to location 
-							header('Location: settings.php');
-						}
-					}
-				}
-				else {
-					throw new Exception($connection->error);
-				}
-				
-				
-			$connection->close();
+			
 		}
 	}catch(Exception $e){
 		
