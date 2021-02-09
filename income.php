@@ -38,7 +38,7 @@
 	</header>
 	<div class="topnav" id="myTopnav" >
        <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a class="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
         <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
         <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
