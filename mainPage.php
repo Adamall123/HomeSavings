@@ -27,27 +27,26 @@
         <div class="container">
 
             <div id="overlay"><img src="resources/img/logoTree.gif" alt="logo" /></div>
-            <h1>HomeSavings</h1>
+            <?php
+			echo "<h1 >Hello ".$_SESSION['user']."!</h1>";
+			?>
         </div>
     </header>
     
      <div class="topnav" id="myTopnav" >
-        <a href="mainPage.php" class="mainPage" ><i class="fas fa-home"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie"></i> Balance</a>
-        <a class="income " ><i class="fas fa-coins"></i> Add Income</a>
-        <a class="expence"><i class="fas fa-shopping-cart"></i> Add Expence</a>
+       <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
+        <a class="balance" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
+        <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
-             <a href="settings.php" class="settings topnav-right"><i class="fas fa-cogs"></i> Setting</a>
+             <a href="settings.php" class="settings topnav-right"><i class="fas fa-cogs" style="color:gray"></i> Setting</a>
             <a class="logout" href="logout.php" ><i class="fas fa-sign-out-alt"></i> Logout</a>
       
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
     </div>
-   <?php
-		
-		echo "<p >Hello ".$_SESSION['user']."!</p>";
-	?>
+  
 	<main>
 	
     <div class="container-fluid">

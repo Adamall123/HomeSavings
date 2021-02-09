@@ -8,40 +8,11 @@
 		$connection = new mysqli($host, $db_user,$db_password,$db_name);
 		if($connection->connect_errno!=0){
 				throw new Exception(mysqli_connect_errno());
-		}else{
-			$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-			$result = mysqli_query($connection, $sql);
-			$incomes = array(); 
-			$incomes_id = array(); 
-			if(mysqli_num_rows($result) > 0){
-				while($row = mysqli_fetch_assoc($result)) {
-					$incomes_id[] = $row['id'];
-					$incomes[] = $row['name']; 
-				}
-			}
-			$sql = "SELECT name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-			$result = mysqli_query($connection, $sql);
-			$expences = array(); 
-			if(mysqli_num_rows($result) > 0){
-				while($row = mysqli_fetch_assoc($result)) {
-					$expences[] = $row['name']; 
-				}
-			}
-			$sql = "SELECT name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-			$result = mysqli_query($connection, $sql);
-			$payment_methods = array(); 
-			if(mysqli_num_rows($result) > 0){
-				while($row = mysqli_fetch_assoc($result)) {
-					$payment_methods[] = $row['name']; 
-				}
-			}
-			
 		}
 	}catch(Exception $e){
 		
 	}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -60,23 +31,19 @@
 </head>
 
 <body>	
-		
-		
 	<header>
         <div class="container">
-		<a href="index.php">
             <div id="overlay"><img src="resources/img/logoTree.gif" alt="logo" /></div>
             <h1>HomeSavings</h1>
-		</a>
         </div>
 	</header>
 	<div class="topnav" id="myTopnav" >
-       <a href="mainPage.php" class="mainPage" ><i class="fas fa-home"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie"></i> Balance</a>
-        <a class="income " ><i class="fas fa-coins"></i> Add Income</a>
-        <a class="expence"><i class="fas fa-shopping-cart"></i> Add Expence</a>
+       <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
+        <a class="balance" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
+        <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
-             <a href="settings.php" class="settings topnav-right"><i class="fas fa-cogs"></i> Setting</a>
+             <a href="settings.php" class="settings topnav-right"><i class="fas fa-cogs" style="color:gray"></i> Setting</a>
             <a class="logout" href="logout.php" ><i class="fas fa-sign-out-alt"></i> Logout</a>
       
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
