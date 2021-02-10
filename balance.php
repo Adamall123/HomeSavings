@@ -10,13 +10,13 @@
 		if($connection->connect_errno!=0){
 				throw new Exception(mysqli_connect_errno());
 		}else {
-			
+			 	
 			 function fill_incomes($connection,$user_loggedin_id)  
-			 {  
-				$month = date('m');
-				$year = date('Y');
-				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-				$output = '';  
+			 {    
+					$month = date('m');
+					$year = date('Y');
+					$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+				  $output = '';  
 				  $sql = "SELECT name, SUM(amount) AS sum FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name";  
 				  $result = mysqli_query($connection, $sql);  
 				  while($row = mysqli_fetch_array($result))  
@@ -44,7 +44,72 @@
 					   $output .=     '</li>';  
 				  }  
 				  return $output;  
-			 }			 
+			 }
+				function fill_balance($connection,$user_loggedin_id)  
+			 {  
+				$month = date('m');
+				$year = date('Y');
+				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+				$output = '';  
+				  $sqlSumIncomes = "SELECT SUM(incomes.amount) as sumIncomes FROM incomes WHERE incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' ";
+					   $sqlSumExpenses = "SELECT SUM(expenses.amount) as sumExpenses FROM expenses WHERE expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' ";
+				  $result = mysqli_query($connection, $sqlSumIncomes);  
+				  while($row = mysqli_fetch_array($result))  
+				  {  
+						$sumIncome = $row["sumIncomes"];
+				  }  
+				  $result2 = mysqli_query($connection, $sqlSumExpenses);  
+				  while($row = mysqli_fetch_array($result2))  
+				  {  
+						$sumExpense = $row["sumExpenses"];
+				  }
+				  $sumFromIncomesExpenses = $sumIncome - $sumExpense;
+				  if($sumFromIncomesExpenses >= 0){
+					 $output .= '<div id="balanceWindow" ><h5>your balance is: '.$sumFromIncomesExpenses.' zł';  
+					 $output .= '<br> <div class="line"> </div>Well done!</h5></div>';
+				  }else {
+					  
+					 $output .= '<div id="balanceWindow" style="background-color:#cc7a00";><h5>your balance is: '.$sumFromIncomesExpenses.' zł';
+					  $output .= '<br> <div class="line"> </div>Try to get beter incomes ! </h5></div>';
+				  } 
+				  return $output; 
+			 }	
+			 	$month = date('m');
+				$year = date('Y');
+				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+
+			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' GROUP BY name")){
+					$php_data_array = Array(); // create PHP array
+					while ($row = $stmt->fetch_row()) {
+					   $php_data_array[] = $row; // Adding to array
+					   }
+					}else{
+					echo $connection->error;
+					}
+					//print_r( $php_data_array);
+					// You can display the json_encode output here. 
+					//echo json_encode($php_data_array); 
+					// Transfor PHP array to JavaScript two dimensional array 
+					echo "<script>
+							var my_2d_expense = ".json_encode($php_data_array)."
+					</script>";
+
+			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
+					$php_data_array = Array(); // create PHP array
+					while ($row = $stmt->fetch_row()) {
+					   $php_data_array[] = $row; // Adding to array
+					   }
+					}else{
+					echo $connection->error;
+					}
+					//print_r( $php_data_array);
+					// You can display the json_encode output here. 
+					//echo json_encode($php_data_array); 
+					// Transfor PHP array to JavaScript two dimensional array 
+					echo "<script>
+							var my_2d_income = ".json_encode($php_data_array)."
+					</script>";
+					
 		}
 	}catch(Exception $e){
 		
@@ -63,7 +128,7 @@
     <title>HomeSavings</title>
     <script src="resources/js/homesaves.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-	<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+	<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -90,38 +155,7 @@
 	</div>
 	<main>
     <div class="container">
-        <!--<div id="setDateRangeForm">
-            <form id="dateForm" method="POST" action="#">
-                <ul id="setDateRangeList">
-                    <li>
-                        <i class="far fa-calendar-check"></i><span style="font-size: 20px;"> Set date range of your transactions:</span>
-                    </li>
-                    <li class="line"> </li>
-                    <li>
-                        <input type="radio" class="timePeriodRadio"  name="selectedOption" id="currentMonthRadioID" value="currentMonthRadio" checked>
-                        <label class="form-check-label" for="currentMonthRadio">Current Month</label>
-                    </li>
-                    <li>
-                        <input type="radio" class="timePeriodRadio" name="selectedOption" value="previousMonthRadio" id="previousMonthRadio">
-                        <label class="form-check-label" for="currentMonthRadio">Last Month</label>
-                    </li>
-                    <li>
-                        <input type="radio" class="timePeriodRadio" name="selectedOption" value="currentYearRadio" id="currentYearRadio">
-                        <label class="form-check-label" for="currentMonthRadio">Current Year</label>
-                    </li>
-                    <li>
-                        <input type="radio" class="timePeriodRadio"  name="selectedOption" value="totalTimeRadio" id="totalTimeRadio">
-                        <label class="form-check-label" for="currentMonthRadio">Total time</label>
-                    </li>
-                    <li>
-                        <button type="button" class="btn btn-warning">Other Date Range</button>
-                    </li>
-                    <li id="otherPeriodOfTimeLabel">2021-01-01 : 2021-01-18</li>
-					<button type="submit" name="check" class="btn btn-warning">Check!</button>
-                </ul>
-            </form>
-        </div>
-		<div>-->
+        
 		<div id="setDateRangeForm">
 		<i class="far fa-calendar-check"></i><span style="font-size: 20px;"> Set date range of your transactions:</span>
 		<div class="line"> </div>        
@@ -132,7 +166,6 @@
                           <option value="3">This year </option>  
                           <option value="4">Total Time </option>  
                      </select>  
-			<section>
 		</div>
 		</div>
   
@@ -174,21 +207,18 @@
 			</section>
 			<div style="clear: both;"></div>
 			<div id="balance">
-			<div id="balanceWindow" >
-				<h6>
-					 your balance is: 0.00 (change communication depending on status account)
-					<br>
-					Well done!
-				</h6>
+			<?php echo fill_balance($connection,$user_loggedin_id); ?>
+			
 			</div>
-			</div>
-				<h6>Results</h6>
+			
+			<section>
+				
 				<div class="row">
 					<div class="col-xl-6">
-						 <div id="piechart_3d_income"></div>
+						 <div id="chart_div_incomes"></div>
 					</div>
 					<div class="col-xl-6">
-						 <div id="piechart_3d_expence"></div>
+						 <div id="chart_div_expenses"></div>
 					</div>
 				</div>
 			</section>
@@ -220,6 +250,7 @@
                 data:{date_id:date_id},  
                 success:function(data){ 
                      $('#expenses').html(data);  
+					
                 }  
 				});  
 			});  
@@ -237,6 +268,33 @@
 				});  
 			});  
 		}); 
+		$('#dateCategory').change(function(){  
+           var date_id = $(this).val();  
+           $.ajax({  
+                url:"load_data_pie_chart.php",  
+                method:"POST",  
+                data:{date_id:date_id},  
+                success:function(data){ 
+                     $('#chart_div_incomes').html(data);  
+					  console.log(data);
+                }  
+				});  
+			});  
+			$('#dateCategory').change(function(){  
+           var date_id = $(this).val();  
+           $.ajax({  
+                url:"load_data_pie_chart_expenses.php",  
+                method:"POST",  
+                data:{date_id:date_id},  
+                success:function(data){ 
+                     $('#chart_div_expenses').html(data);  
+					  console.log(data);
+                }  
+				});  
+			});
+		
+		
+		
 	
         function myFunction() {
             var x = document.getElementById("myTopnav");
@@ -246,6 +304,51 @@
                 x.className = "topnav";
             }
         }
+		
+		
+		 google.charts.load('current', {'packages':['corechart']});
+      // Draw the pie chart when Charts is loaded.
+      google.charts.setOnLoadCallback(draw_my_chart_incomes);
+      google.charts.setOnLoadCallback(draw_my_chart_expenses);
+      // Callback that draws the pie chart
+      function draw_my_chart_incomes() {
+        // Create the data table .
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'name');
+        data.addColumn('number', 'amount');
+		for(i = 0; i < my_2d_income.length; i++)
+		data.addRow([my_2d_income[i][0], parseInt(my_2d_income[i][1])]);
+		// above row adds the JavaScript two dimensional array data into required chart format
+		var options = {title:'Total Costs Incomes',
+                       width:600,
+                       height:500,
+					   backgroundColor: '#38b6ff',
+						is3D: true};
+
+        // Instantiate and draw the chart
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div_incomes'));
+        chart.draw(data, options);
+      }
+	  
+	  function draw_my_chart_expenses() {
+        // Create the data table .
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'name');
+        data.addColumn('number', 'amount');
+		for(i = 0; i < my_2d_expense.length; i++)
+		data.addRow([my_2d_expense[i][0], parseInt(my_2d_expense[i][1])]);
+		// above row adds the JavaScript two dimensional array data into required chart format
+		var options = {title:'Total Costs Expenses',
+                       width:600,
+                       height:500,
+					   backgroundColor: '#38b6ff',
+						is3D: true};
+
+        // Instantiate and draw the chart
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div_expenses'));
+        chart.draw(data, options);
+      }
+		
     </script>
 </body>
 

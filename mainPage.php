@@ -19,7 +19,8 @@
     <title>HomeSavings</title>
     <script src="resources/js/homesaves.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+	<!--issue with library-->
 </head>
 <body>
 	
@@ -34,7 +35,7 @@
     </header>
     <div class="container">
      <div class="topnav" id="myTopnav" >
-       <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
+       <a href="mainPage.php" class="mainPage " ><i class="fas fa-home "  style="color:lightgray"></i> Home</a>
         <a href="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
         <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
         <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>

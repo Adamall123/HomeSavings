@@ -25,7 +25,6 @@
 				  else if($_POST["date_id"] == 2)  
 				  {  	
 					   $lastmonth = date('m', strtotime("last month"));
-					   $year = date('Y');
 					  $sql = "SELECT name, SUM(amount) AS sum FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$lastmonth-01' AND date_of_income <= '$year-$lastmonth-$numberOfDaysOfSelectedMonth' GROUP BY name";
 				  }  
 				   else if($_POST["date_id"] == 3)  

@@ -27,7 +27,7 @@
     <title>HomeSavings</title>
     <script src="resources/js/homesaves.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
 <body>	
