@@ -229,13 +229,13 @@ section .Category .CategoryColumn .CategoryRow li {
 #balanceWindow {
     height: 120px;
     width: 100%;
-    margin: 0 auto 20px auto;
+    background-color: green;
     border-radius: 10px;
-    border: 2px solid white;
+    border: 2px solid #38b6ff;
     font-size: 25px;
     line-height: 200%;
     text-align: center;
-    padding: 0 10px;
+    padding-top: 20px;
 }
 
 .row button .Category .CategoryHeader {

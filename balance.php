@@ -173,17 +173,15 @@
 				</div>
 			</section>
 			<div style="clear: both;"></div>
-			<section>
-				<div id="balanceWindow" style="background-color: green;">
+			<div id="balance">
+			<div id="balanceWindow" >
 				<h6>
 					 your balance is: 0.00 (change communication depending on status account)
 					<br>
 					Well done!
-					</h6>
-				</div>
-			</section>
-		
-			<section>
+				</h6>
+			</div>
+			</div>
 				<h6>Results</h6>
 				<div class="row">
 					<div class="col-xl-6">
@@ -234,7 +232,7 @@
                 method:"POST",  
                 data:{date_id:date_id},  
                 success:function(data){ 
-                     $('#balanceWindow').html(data);  
+                     $('#balance').html(data);  
                 }  
 				});  
 			});  
