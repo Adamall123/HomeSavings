@@ -32,10 +32,10 @@
 			?>
         </div>
     </header>
-    
+    <div class="container">
      <div class="topnav" id="myTopnav" >
        <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a href="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
         <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
         <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
@@ -46,35 +46,36 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
+    </div>
   
 	<main>
 	
-    <div class="container-fluid">
+    <div class="container" style="margin-top: 200px;">
         <div class="row">
             <div class="col-lg-6 col-xl-3">
                 <div class="balance text-center">
-                    <h2>Balance</h2>
+                    <h3>Balance</h3>
                     <h5>On this page you can check your summary of incomes and expences.</h5>
                     <div class="iconmain"><img src="resources/img/balance.png" alt="balance" /></div>
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
                 <div class="income text-center">
-                    <h2>Add income</h2>
+                    <h3>Add income</h3>
                     <h5>Provide the amount, select one specific category.</h5>
                     <div class="iconmain"><img src="resources/img/income.png" alt="income" /></div>
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
                 <div class="expence text-center">
-                    <h2>Add expence</h2>
+                    <h3>Add expence</h3>
                     <h5>Provide the amount, select <strong>payment method</strong> and select one specific category.</h5>
                     <div class="iconmain"><img src="resources/img/expence3.png" alt="expence" /></div>
                 </div>
             </div>
             <div class="col-lg-6 col-xl-3">
                 <div class="settings text-center">
-                    <h2>Settings</h2>
+                    <h3>Settings</h3>
                     <h5>Delete, edit and add categories. Delete recently added income and expences.</h5>
                     <div class="iconmain"><img src="resources/img/settings.png" alt="setting" /></div>
                 </div>
@@ -85,9 +86,6 @@
 	</main>
 	
 	<footer>
-
-       
-
     </footer>
 
      

@@ -33,12 +33,13 @@
    <header>
         <div class="container">
             <div id="overlay"><img src="resources/img/logoTree.gif" alt="logo" /></div>
-            <h1>HomeSavings</h1>
+            <h1>Expence</h1>
         </div>
 	</header>
+	<div class="container">
 	<div class="topnav" id="myTopnav" >
        <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
-        <a class="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a href="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
         <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
         <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
@@ -48,6 +49,7 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
+    </div>
     </div>
 	<main>
 		 <?php 

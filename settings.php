@@ -34,12 +34,13 @@
 	<header>
         <div class="container">
             <div id="overlay"><img src="resources/img/logoTree.gif" alt="logo" /></div>
-            <h1>HomeSavings</h1>
+            <h1>Settings</h1>
         </div>
 	</header>
+	<div class="container">
 	<div class="topnav" id="myTopnav" >
        <a href="mainPage.php" class="mainPage" ><i class="fas fa-home" style="color:lightgray"></i> Home</a>
-        <a class="balance" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
+        <a href="balance.php" ><i class="fas fa-chart-pie" style="color:orange"></i> Balance</a>
         <a href="income.php" class="income " ><i class="fas fa-coins" style="color:yellow"></i> Add Income</a>
         <a href="expence.php" class="expence"><i class="fas fa-shopping-cart" style="color:lightgreen"></i> Add Expence</a>
        
@@ -49,6 +50,7 @@
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
+    </div>
     </div>
 	<main>
     <div class="container">
@@ -85,7 +87,6 @@
 						<button style="color:white" class="CategoryHeader" onclick="showhide()">Incomes Categories
 						<i style="color:white"  class="fas fa-arrow-down"></i>
 						</button>
-
                     </header>
                     <div class="CategoryColumn" id="incomes">
                         <ul class="CategoryRow">
@@ -177,9 +178,7 @@
 		<?php include('add_modal.php'); ?>
     </div>
 	</main>
-
     <script>
-		
         function myFunction() {
             var x = document.getElementById("myTopnav");
             if (x.className === "topnav") {
@@ -203,11 +202,6 @@
 			return false;
 		  }
 		}
-		
-		
-		
-
-		
     </script>
      <script src="vendors/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
