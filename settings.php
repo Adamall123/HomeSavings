@@ -63,8 +63,19 @@
                         </div>
                         <div class="col">
                             <ul id="profileDetailsList">
-                                <li>Nick: Adam</li>
-                                <li>Email: adam@gmail.com</li>
+                               <li>	Login:<?php
+								$sql = "SELECT username FROM users WHERE id = '$user_loggedin_id'";
+								$result = mysqli_query($connection, $sql);
+								$row=mysqli_fetch_array($result);
+								echo ucwords($row['username']); ?>	
+							</li>
+                                <li>Email:
+								<?php
+								$sql = "SELECT email FROM users WHERE id = '$user_loggedin_id'";
+								$result = mysqli_query($connection, $sql);
+								$row=mysqli_fetch_array($result);
+								echo ucwords($row['email']); ?>	
+								</li>
                             </ul>
                         </div>
                     </div>
@@ -92,16 +103,19 @@
                         <ul class="CategoryRow">
 									<?php
 						$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+						$defaultCategory = "Another";
 						$result = mysqli_query($connection, $sql);
 						while($row=mysqli_fetch_array($result)){
 							?>
 							<li>
 								<?php echo ucwords($row['name']); ?>
-								<div class='editDeleteSpan'>
-									<a href="#editIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
-									<a href="#delIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
-									<?php include('button.php'); ?>
-								</div>
+								<?php if($row['name']!= $defaultCategory){ ?>
+									<div class='editDeleteSpan'>
+										<a href="#editIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+										<a href="#delIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a> 
+										<?php include('button.php'); ?>
+									</div>
+								<?php } ?>
 							</li>
 							<?php
 							}
@@ -127,11 +141,13 @@
 							?>
 							<li>
 								<?php echo ucwords($row['name']); ?>
+								<?php if($row['name']!= $defaultCategory){ ?>
 								<div class='editDeleteSpan'>
 									<a href="#editExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
 									<a href="#delExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
 									<?php include('button.php'); ?>
 								</div>
+								<?php } ?>
 							</li>
 							<?php
 							}

@@ -54,32 +54,40 @@
     <div class="container" style="margin-top: 200px;">
         <div class="row">
             <div class="col-lg-6 col-xl-3">
-                <div class="balance text-center">
+            <a href="balance.php">
+				<div class="balance text-center">
                     <h3>Balance</h3>
                     <h5>On this page you can check your summary of incomes and expences.</h5>
                     <div class="iconmain"><img src="resources/img/balance.png" alt="balance" /></div>
                 </div>
+			</a>
             </div>
             <div class="col-lg-6 col-xl-3">
+			<a href="income.php">
                 <div class="income text-center">
                     <h3>Add income</h3>
                     <h5>Provide the amount, select one specific category.</h5>
                     <div class="iconmain"><img src="resources/img/income.png" alt="income" /></div>
                 </div>
+			</a>
             </div>
             <div class="col-lg-6 col-xl-3">
+			<a href="expence.php">
                 <div class="expence text-center">
-                    <h3>Add expence</h3>
+                    <h3>Add expense</h3>
                     <h5>Provide the amount, select <strong>payment method</strong> and select one specific category.</h5>
                     <div class="iconmain"><img src="resources/img/expence3.png" alt="expence" /></div>
                 </div>
+			</a>
             </div>
             <div class="col-lg-6 col-xl-3">
+			<a href="settings.php">
                 <div class="settings text-center">
                     <h3>Settings</h3>
                     <h5>Delete, edit and add categories. Delete recently added income and expences.</h5>
                     <div class="iconmain"><img src="resources/img/settings.png" alt="setting" /></div>
                 </div>
+			</a>
             </div>
 
         </div>

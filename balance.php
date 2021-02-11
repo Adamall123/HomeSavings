@@ -78,7 +78,7 @@
 				$year = date('Y');
 				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
 
-			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' GROUP BY name")){
+			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
 					$php_data_array = Array(); // create PHP array
 					while ($row = $stmt->fetch_row()) {
 					   $php_data_array[] = $row; // Adding to array
@@ -319,10 +319,11 @@
 		for(i = 0; i < my_2d_income.length; i++)
 		data.addRow([my_2d_income[i][0], parseInt(my_2d_income[i][1])]);
 		// above row adds the JavaScript two dimensional array data into required chart format
-		var options = {title:'Total Costs Incomes',
+		var options = {title:'Costs Incomes',
                        width:600,
                        height:500,
 					   backgroundColor: '#38b6ff',
+					   titleTextStyle: {color:'#FFFFFF'}, 
 						is3D: true};
 
         // Instantiate and draw the chart
@@ -338,9 +339,10 @@
 		for(i = 0; i < my_2d_expense.length; i++)
 		data.addRow([my_2d_expense[i][0], parseInt(my_2d_expense[i][1])]);
 		// above row adds the JavaScript two dimensional array data into required chart format
-		var options = {title:'Total Costs Expenses',
+		var options = {title:'Costs Expenses',
                        width:600,
                        height:500,
+					   titleTextStyle: {color:'#FFFFFF'}, 
 					   backgroundColor: '#38b6ff',
 						is3D: true};
 
