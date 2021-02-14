@@ -2,16 +2,8 @@
 	//send logged in id user?
 	session_start();
 	$user_loggedin_id =  $_SESSION['id'];
-	require_once "connect.php";
-	mysqli_report(MYSQLI_REPORT_STRICT);
-	try{
-		$connection = new mysqli($host, $db_user,$db_password,$db_name);
-		if($connection->connect_errno!=0){
-				throw new Exception(mysqli_connect_errno());
-		}
-	}catch(Exception $e){
-		
-	}
+	require_once "database.php";
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,10 +65,10 @@
 
                         <div class="lowerPanel">
 							<?php 
-								$sql = "SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-								$expences = mysqli_query($connection, $sql);
-								$sql2 = "SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-								$paymentMethods = mysqli_query($connection, $sql2);
+								$sql = $db->query("SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'");
+								$expences = $sql->fetchAll();
+								$sql2 = $db->query("SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'");
+								$paymentMethods = $sql2->fetchAll();
 							?>
                             <form method="POST" action="addexpence.php">
 
@@ -91,8 +83,9 @@
                                 <div class="inputPanel">
                                     <select  id="inputCategory" class="form-control valid" name="expense_category_id" aria-invalid="false">
 										<?php
-										while($row=mysqli_fetch_array($expences)){ ?>
-										<option value="<?php echo $row['id'];?>"><?php echo $row['name'];?></option>
+										foreach($expences as $expense){ ?>
+									
+										 <option value="<?php echo $expense['id'];?>"><?php echo $expense['name'];?></option>
 										<?php }
 										?>
                                     </select>
@@ -100,8 +93,8 @@
                                 <div class="inputPanel">
                                     <select class="form-control" name="payment_method_id">
 										<?php
-										while($row=mysqli_fetch_array($paymentMethods)){ ?>
-										<option value="<?php echo $row['id'];?>"><?php echo $row['name'];?></option>
+										foreach($paymentMethods as $paymentMethod){ ?>
+										<option value="<?php echo $paymentMethod['id'];?>"><?php echo $paymentMethod['name'];?></option>
 										<?php }
 										?>
                                     </select>

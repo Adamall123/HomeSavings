@@ -2,16 +2,8 @@
 	//send logged in id user?
 	session_start();
 	$user_loggedin_id =  $_SESSION['id'];
-	require_once "connect.php";
-	mysqli_report(MYSQLI_REPORT_STRICT);
-	try{
-		$connection = new mysqli($host, $db_user,$db_password,$db_name);
-		if($connection->connect_errno!=0){
-				throw new Exception(mysqli_connect_errno());
-		}
-	}catch(Exception $e){
-		
-	}
+	require_once "database.php";
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,8 +64,8 @@
         </div>
         <div class="lowerPanel" style="height: 355px;">
 			<?php 
-				$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-				$result = mysqli_query($connection, $sql);
+				$sql = $db->query("SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'");
+				$incomesInfo =  $sql->fetchAll();
 			?>
             <form method="POST" action="addIncome.php" >
                 <div class="inputPanel">
@@ -87,8 +79,9 @@
                 <div class="inputPanel">
                     <select class="form-control" name="income_category_id">
 						<?php
-						while($row=mysqli_fetch_array($result)){ ?>
-                        <option value="<?php echo $row['id'];?>"><?php echo $row['name'];?></option>
+						//while($row=mysqli_fetch_array($result)){
+							foreach($incomesInfo as $incomeInfo ){?>
+                        <option value="<?php echo $incomeInfo['id'];?>"><?php echo $incomeInfo['name'];?></option>
 						<?php }
 						?>
                     </select>

@@ -2,16 +2,8 @@
 	//send logged in id user?
 	session_start();
 	$user_loggedin_id =  $_SESSION['id'];
-	require_once "connect.php";
-	mysqli_report(MYSQLI_REPORT_STRICT);
-	try{
-		$connection = new mysqli($host, $db_user,$db_password,$db_name);
-		if($connection->connect_errno!=0){
-				throw new Exception(mysqli_connect_errno());
-		}
-	}catch(Exception $e){
-		
-	}
+	require_once "database.php";
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -64,17 +56,15 @@
                         <div class="col">
                             <ul id="profileDetailsList">
                                <li>	Login:<?php
-								$sql = "SELECT username FROM users WHERE id = '$user_loggedin_id'";
-								$result = mysqli_query($connection, $sql);
-								$row=mysqli_fetch_array($result);
-								echo ucwords($row['username']); ?>	
+								$user = $db->query("SELECT username FROM users WHERE id = '$user_loggedin_id'");
+								$result = $user->fetch();
+								echo ucwords($result['username']); ?>	
 							</li>
                                 <li>Email:
 								<?php
-								$sql = "SELECT email FROM users WHERE id = '$user_loggedin_id'";
-								$result = mysqli_query($connection, $sql);
-								$row=mysqli_fetch_array($result);
-								echo ucwords($row['email']); ?>	
+								$user = $db->query("SELECT email FROM users WHERE id = '$user_loggedin_id'");
+								$result = $user->fetch();
+								echo ucwords($result['email']); ?>	
 								</li>
                             </ul>
                         </div>
@@ -101,21 +91,18 @@
                     </header>
                     <div class="CategoryColumn" id="incomes">
                         <ul class="CategoryRow">
-									<?php
-						$sql = "SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
+							<?php
+						$incomesQuery = $db->query("SELECT id, name FROM incomes_category_assigned_to_users WHERE user_id = '$user_loggedin_id'");
 						$defaultCategory = "Another";
-						$result = mysqli_query($connection, $sql);
-						while($row=mysqli_fetch_array($result)){
-							?>
-							<li>
-								<?php echo ucwords($row['name']); ?>
-								<?php if($row['name']!= $defaultCategory){ ?>
-									<div class='editDeleteSpan'>
-										<a href="#editIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
-										<a href="#delIncomeModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a> 
+						$incomes = $incomesQuery->fetchAll(); 
+							foreach($incomes  as $income){
+								echo "<li>{$income['name']}";?>
+								
+								<div class='editDeleteSpan'>
+										<a href="#editIncomeModal<?php echo $income['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+										<a href="#delIncomeModal<?php echo $income['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a> 
 										<?php include('button.php'); ?>
-									</div>
-								<?php } ?>
+								</div>
 							</li>
 							<?php
 							}
@@ -135,16 +122,16 @@
                     <div class="CategoryColumn">
                         <ul class="CategoryRow">
 								<?php
-						$sql = "SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-						$result = mysqli_query($connection, $sql);
-						while($row=mysqli_fetch_array($result)){
+						$expensesQuery = $db->query("SELECT id, name FROM expenses_category_assigned_to_users WHERE user_id = '$user_loggedin_id'");
+						$expenses = $expensesQuery->fetchAll();
+							foreach($expenses as $expense){
 							?>
 							<li>
-								<?php echo ucwords($row['name']); ?>
-								<?php if($row['name']!= $defaultCategory){ ?>
+								<?php echo ucwords($expense['name']); ?>
+								<?php if($expense['name']!= $defaultCategory){ ?>
 								<div class='editDeleteSpan'>
-									<a href="#editExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
-									<a href="#delExpenceModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
+									<a href="#editExpenceModal<?php echo $expense['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+									<a href="#delExpenceModal<?php echo $expense['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
 									<?php include('button.php'); ?>
 								</div>
 								<?php } ?>
@@ -159,7 +146,7 @@
                     </footer>
                 </div>
             </div>
-            <div class="col-lg-4">
+			<div class="col-lg-4">
                 <div class="Category">
                     <header>
                         <div class="CategoryHeader">Payment Methods</div>
@@ -167,29 +154,26 @@
                     <div class="CategoryColumn">
                         <ul class="CategoryRow">
 							<?php
-							$sql = "SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'";
-							$result = mysqli_query($connection, $sql);
-							while($row=mysqli_fetch_array($result)){
+							$paymentMethodQuery = $db->query("SELECT id, name FROM payment_methods_assigned_to_users WHERE user_id = '$user_loggedin_id'");
+							$paymentMethods = $paymentMethodQuery->fetchAll();
+							foreach($paymentMethods as $paymentMethod){
 								?>
 								<li>
-									<?php echo ucwords($row['name']); ?>
+									<?php echo ucwords($paymentMethod['name']); ?>
 									<div class='editDeleteSpan'>
-										<a href="#editPaymentModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
-										<a href="#delPaymentModal<?php echo $row['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
+										<a href="#editPaymentModal<?php echo $paymentMethod['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
+										<a href="#delPaymentModal<?php echo $paymentMethod['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a>
 										<?php include('button.php'); ?>
 									</div>
 								</li>
 								<?php
 								}
 							?>
-              
                         </ul>
-                    </div>
-                    <footer>
-                       <span><a  href="#addnewpaymentmethod" data-toggle="modal" type="button" class="CategoryFooter">Add New Method</a></span>
+						 <footer>
+                        <span><a  href="#addnewpaymentmethod" data-toggle="modal" type="button" class="CategoryFooter">Add New Expence</a></span>
                     </footer>
-                </div>
-            </div>
+                    </div>
         </div>
 		<?php include('add_modal.php'); ?>
     </div>

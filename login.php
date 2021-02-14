@@ -1,14 +1,29 @@
 <?php 
 	session_start();
-		//pop up window
-		//delete global session
-	if((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin'] == true)){
-		//display id loggedin user
-		
-		header('Location: mainPage.php');
-		exit();
+	if(!isset($_SESSION['loggedin'] )){
+		if(isset($_POST['login'])){
+		$login = filter_input(INPUT_POST, 'login');
+		$password = filter_input(INPUT_POST, 'password');
+		//encje html'a 
+		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
+		require_once 'database.php';
+		$userQuery = $db->prepare("SELECT * FROM users WHERE username = :login");
+		$userQuery->bindValue(':login', $login, PDO::PARAM_STR);
+		$userQuery->execute();
+		//echo $userQuery->rowCount();
+		$user = $userQuery->fetch();
+		if($user && password_verify($password, $user['password'])){
+			$_SESSION['loggedin'] = true;
+			$_SESSION['id'] = $user['id'];
+			$_SESSION['user']= $user['username'];
+			unset($_SESSION['mistake']); //delete variable from session when logged in 
+			header('Location: mainPage.php');
+		} else {
+			$_SESSION['mistake'] = '<span style="color:red"> Wrong login or password! </span>';
+			header('Location: login.php');
+			}
+		}
 	}
-	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +56,7 @@
                     <div class="title">
                         Homesave
                     </div>
-                    <form class="form" action="log.php" method="post">
+                    <form class="form" method="post">
                         <div class="inputfield">
                             <label>Email Address</label>
                             <input type="text" name="login" class="input">

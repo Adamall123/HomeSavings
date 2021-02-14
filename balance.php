@@ -3,117 +3,110 @@
 	session_start();
 	$user_loggedin_id =  $_SESSION['id'];
 	
-	require_once "connect.php";
-	mysqli_report(MYSQLI_REPORT_STRICT);
-	try{
-		$connection = new mysqli($host, $db_user,$db_password,$db_name);
-		if($connection->connect_errno!=0){
-				throw new Exception(mysqli_connect_errno());
-		}else {
+	require_once "database.php";
+
 			 	
-			 function fill_incomes($connection,$user_loggedin_id)  
-			 {    
-					$month = date('m');
-					$year = date('Y');
-					$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
-				  $output = '';  
-				  $sql = "SELECT name, SUM(amount) AS sum FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name";  
-				  $result = mysqli_query($connection, $sql);  
-				  while($row = mysqli_fetch_array($result))  
-				  {  
-					   $output .= '<li><a>';  
-					   $output .= $row["name"].': '.$row["sum"].'';  
-					   $output .=     '</a>';  
-					   $output .=     '</li>';  
-				  }  
-				  return $output;  
-			 }
-			function fill_expences($connection,$user_loggedin_id)  
-			 {  
-				$month = date('m');
-				$year = date('Y');
-				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-				$output = '';  
-				  $sql = "SELECT name, SUM(amount) AS sum FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name";  
-				  $result = mysqli_query($connection, $sql);  
-				  while($row = mysqli_fetch_array($result))  
-				  {  
-					   $output .= '<li><a>';  
-					   $output .= $row["name"].': '.$row["sum"].'';  
-					   $output .=     '</a>';  
-					   $output .=     '</li>';  
-				  }  
-				  return $output;  
-			 }
-				function fill_balance($connection,$user_loggedin_id)  
-			 {  
-				$month = date('m');
-				$year = date('Y');
-				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
-				$output = '';  
-				  $sqlSumIncomes = "SELECT SUM(incomes.amount) as sumIncomes FROM incomes WHERE incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' ";
-					   $sqlSumExpenses = "SELECT SUM(expenses.amount) as sumExpenses FROM expenses WHERE expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' ";
-				  $result = mysqli_query($connection, $sqlSumIncomes);  
-				  while($row = mysqli_fetch_array($result))  
-				  {  
-						$sumIncome = $row["sumIncomes"];
-				  }  
-				  $result2 = mysqli_query($connection, $sqlSumExpenses);  
-				  while($row = mysqli_fetch_array($result2))  
-				  {  
-						$sumExpense = $row["sumExpenses"];
-				  }
-				  $sumFromIncomesExpenses = $sumIncome - $sumExpense;
-				  if($sumFromIncomesExpenses >= 0){
-					 $output .= '<div id="balanceWindow" ><h5>your balance is: '.$sumFromIncomesExpenses.' zł';  
-					 $output .= '<br> <div class="line"> </div>Well done!</h5></div>';
-				  }else {
-					  
-					 $output .= '<div id="balanceWindow" style="background-color:#cc7a00";><h5>your balance is: '.$sumFromIncomesExpenses.' zł';
-					  $output .= '<br> <div class="line"> </div>Try to get beter incomes ! </h5></div>';
-				  } 
-				  return $output; 
-			 }	
-			 	$month = date('m');
-				$year = date('Y');
-				$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
-
-			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
-					$php_data_array = Array(); // create PHP array
-					while ($row = $stmt->fetch_row()) {
-					   $php_data_array[] = $row; // Adding to array
-					   }
-					}else{
-					echo $connection->error;
-					}
-					//print_r( $php_data_array);
-					// You can display the json_encode output here. 
-					//echo json_encode($php_data_array); 
-					// Transfor PHP array to JavaScript two dimensional array 
-					echo "<script>
-							var my_2d_expense = ".json_encode($php_data_array)."
-					</script>";
-
-			  if($stmt = $connection->query("SELECT name, SUM(amount)  FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
-					$php_data_array = Array(); // create PHP array
-					while ($row = $stmt->fetch_row()) {
-					   $php_data_array[] = $row; // Adding to array
-					   }
-					}else{
-					echo $connection->error;
-					}
-					//print_r( $php_data_array);
-					// You can display the json_encode output here. 
-					//echo json_encode($php_data_array); 
-					// Transfor PHP array to JavaScript two dimensional array 
-					echo "<script>
-							var my_2d_income = ".json_encode($php_data_array)."
-					</script>";
-					
-		}
-	}catch(Exception $e){
-		
+	function fill_incomes($db,$user_loggedin_id)  
+	{    
+		$month = date('m');
+		$year = date('Y');
+		$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+	  $output = '';  
+	  $sql = $db->query("SELECT name, SUM(amount) AS sum FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name");  
+	  $incomesResult = $sql->fetchAll();  
+	  foreach($incomesResult as $incomeResult)
+	  {  
+		   $output .= '<li><a>';  
+		   $output .= $incomeResult["name"].': '.$incomeResult["sum"].'';  
+		   $output .=     '</a>';  
+		   $output .=     '</li>';  
+	  }  
+	  return $output;  
 	}
+	function fill_expences($db,$user_loggedin_id)  
+	{  
+	$month = date('m');
+	$year = date('Y');
+	$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	$output = '';  
+	  $sql = $db->query("SELECT name, SUM(amount) AS sum FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name");  
+	  $expensesResult = $sql->fetchAll(); 
+	  foreach($expensesResult as $expenseResult)
+	  {  
+		   $output .= '<li><a>';  
+		   $output .= $expenseResult["name"].': '.$expenseResult["sum"].'';  
+		   $output .=     '</a>';  
+		   $output .=     '</li>';  
+	  }  
+	  return $output;  
+	}
+	function fill_balance($connection,$user_loggedin_id)  
+	{  
+	$month = date('m');
+	$year = date('Y');
+	$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	$output = '';  
+	  $sqlSumIncomes = $db->query("SELECT SUM(incomes.amount) as sumIncomes FROM incomes WHERE incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' ");
+		   $sqlSumExpenses = $db->query("SELECT SUM(expenses.amount) as sumExpenses FROM expenses WHERE expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' ");
+	  $sumIncomesresult = $sqlSumIncomes->fetchAll();  
+	  foreach($sumIncomesresult as $sumIncomeresult) 
+	  {  
+			$sumIncome = $sumIncomeresult["sumIncomes"];
+	  }  
+	  $sumExpensesresult = $sqlSumExpenses->fetchAll();  
+	   foreach($sumExpensesresult as $sumExpenseresult)  
+	  {  
+			$sumExpense = $sumExpenseresult["sumExpenses"];
+	  }
+	  $sumFromIncomesExpenses = $sumIncome - $sumExpense;
+	  if($sumFromIncomesExpenses >= 0){
+		 $output .= '<div id="balanceWindow" ><h5>your balance is: '.$sumFromIncomesExpenses.' zł';  
+		 $output .= '<br> <div class="line"> </div>Well done!</h5></div>';
+	  }else {
+		  
+		 $output .= '<div id="balanceWindow" style="background-color:#cc7a00";><h5>your balance is: '.$sumFromIncomesExpenses.' zł';
+		  $output .= '<br> <div class="line"> </div>Try to get beter incomes ! </h5></div>';
+	  } 
+	  return $output; 
+	}	
+	$month = date('m');
+	$year = date('Y');
+	$numberOfDaysOfSelectedMonth = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+
+	if($stmt = $db->query("SELECT name, SUM(amount)  FROM expenses, expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.id = expenses.expense_category_assigned_to_user_id AND expenses.user_id = '$user_loggedin_id' AND date_of_expense >= '$year-$month-01' AND date_of_expense <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
+		$php_data_array = Array(); // create PHP array
+		while ($row = $stmt->fetch()) {
+		   $php_data_array[] = $row; // Adding to array
+		   }
+		}else{
+		echo $db->error;
+		}
+		//print_r( $php_data_array);
+		// You can display the json_encode output here. 
+		//echo json_encode($php_data_array); 
+		// Transfor PHP array to JavaScript two dimensional array 
+		echo "<script>
+				var my_2d_expense = ".json_encode($php_data_array)."
+		</script>";
+
+	if($stmt = $db->query("SELECT name, SUM(amount)  FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name")){
+		$php_data_array = Array(); // create PHP array
+		while ($row = $stmt->fetch()) {
+		   $php_data_array[] = $row; // Adding to array
+		   }
+		}else{
+		echo $db->error;
+		}
+		//print_r( $php_data_array);
+		// You can display the json_encode output here. 
+		//echo json_encode($php_data_array); 
+		// Transfor PHP array to JavaScript two dimensional array 
+		echo "<script>
+				var my_2d_income = ".json_encode($php_data_array)."
+		</script>";
+					
+		
+
 ?>
 <!DOCTYPE html> 
 <html lang="en">  
@@ -181,7 +174,7 @@
 								<?php /*while($row=mysqli_fetch_array($result)) {?>
 								<li><a><?php echo $row['name'];?>: <?php echo $row['sum']; ?></a></li>
 								<?php }*/ 
-									echo fill_incomes($connection, $user_loggedin_id);
+									echo fill_incomes($db, $user_loggedin_id);
 								?>
 								</ul>
 							</div>
@@ -197,7 +190,7 @@
 								<?php /*while($row=mysqli_fetch_array($result)) {?>
 								<li><a><?php echo $row['name'];?>: <?php echo $row['sum']; ?></a></li>
 								<?php }*/ 
-									echo fill_expences($connection, $user_loggedin_id);
+									echo fill_expences($db, $user_loggedin_id);
 								?>
 								</ul>
 							</div>
@@ -207,7 +200,7 @@
 			</section>
 			<div style="clear: both;"></div>
 			<div id="balance">
-			<?php echo fill_balance($connection,$user_loggedin_id); ?>
+			<?php// echo fill_balance($db,$user_loggedin_id); ?>
 			
 			</div>
 			

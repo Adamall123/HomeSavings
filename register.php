@@ -1,6 +1,8 @@
 <?php
 	session_start();
+	
 	unset($_SESSION['mistake']); 
+	
 	if (isset($_POST['email'])){
 		$all_OK = true; 
 		$nick = $_POST['username'];
@@ -12,10 +14,10 @@
 			$all_OK = false;
 			$_SESSION['e_nick'] = "Nick can consist only of letters and numbers";
 		}
-		$email = $_POST['email'];
-		$emailS = filter_var($email, FILTER_SANITIZE_EMAIL); //Remove all illegal characters from an email address
-		
-		if((!filter_var($emailS, FILTER_VALIDATE_EMAIL)) || ($emailS!=$email)){
+		//$email = $_POST['email'];
+		$email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL); //(źródło danych wejściowych, indeks zmiennej, rodzaj filtru)
+		//$emailS = filter_var($email, FILTER_SANITIZE_EMAIL); //Remove all illegal characters from an email address
+		if(empty($email)){
 			$all_OK = false; 
 			$_SESSION['e_email'] = "Give correct e-mail!";
 			}
@@ -35,7 +37,7 @@
 		
 		$secret = "6Lck-z8aAAAAANHvM7cul2QF999cFNCc-r8hPX-4";
 		//verfied if not bot 
-		/*$check = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+		$check = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
 		
 		$answer = json_decode($check);
 		
@@ -43,69 +45,61 @@
 			$all_OK = false; 
 			$_SESSION['e_bot'] = "Confirm that you are not a bot!";
 		}
-		*/
-		//remember provided data
 		
-		$_SESSION['fr_nick'] = $nick;
-		$_SESSION['fr_email'] = $email;
-		$_SESSION['fr_password1'] = $password1;
-		$_SESSION['fr_password2'] = $password2;
-		
-		require_once "connect.php"; 
-		mysqli_report(MYSQLI_REPORT_STRICT);
-		try{
-			$connection = new mysqli($host, $db_user,$db_password,$db_name);
-			if($connection->connect_errno!=0){
-				throw new Exception(mysqli_connect_errno());
-			}
-			else 
+		$_SESSION['fr_nick'] = $_POST['username'];
+		$_SESSION['fr_email'] =  $_POST['email'];
+		$_SESSION['fr_password1'] = $_POST['password1'];
+		$_SESSION['fr_password2'] = $_POST['password2'];
+
+		require_once 'database.php';
+		$query = $db->prepare("SELECT id FROM users WHERE email= :email");
+		$query->bindValue(':email', $email, PDO::PARAM_STR);
+		$query->execute();
+		$amount_of_mails = $query->rowCount();
+		if($amount_of_mails > 0){
+			$all_OK = false;
+			$_SESSION['e_email'] = "The account with given email exists.";
+		}
+		$query = $db->prepare("SELECT id FROM users WHERE username= :username");
+		//if(!$query) throw new Exception($connection->error);
+		$query->bindValue(':username', $nick, PDO::PARAM_STR);
+		$query->execute();
+		$amount_of_nicks = $query->rowCount();
+		if($amount_of_nicks > 0){
+			$all_OK = false;
+			$_SESSION['e_nick'] = "The account with given nickname exists.";
+		}
+		if($all_OK){ 
+			$query = $db->prepare('INSERT INTO users  VALUES (NULL, :username, :password, :email)');
+			$query->bindValue(':username', $nick, PDO::PARAM_STR);
+			$query->bindValue(':password', $password1, PDO::PARAM_STR);
+			$query->bindValue(':email', $email, PDO::PARAM_STR);
+			if($query->execute())
 			{
-				$result = $connection->query("SELECT id FROM users WHERE email='$email'");
-				if(!$result) throw new Exception($connection->error);
-				$amount_of_mails = $result->num_rows;
-				if($amount_of_mails > 0){
-					$all_OK = false;
-					$_SESSION['e_email'] = "The account with given email exists.";
-				}
-				
-				$result = $connection->query("SELECT id FROM users WHERE username='$nick'");
-				if(!$result) throw new Exception($connection->error);
-				$amount_of_nicks = $result->num_rows;
-				if($amount_of_nicks > 0){
-					$all_OK = false;
-					$_SESSION['e_nick'] = "The account with given nickname exists.";
-				}
-				
-				
-				if($all_OK){
-				//add user to database, and here we need to add more..... 
-					if($connection->query("INSERT INTO users VALUES(NULL,'$nick','$password_hash','$email')"))
-					{
-						//get user_id 
-						$query = "SELECT id FROM users ORDER BY id DESC";
-						$result = mysqli_query($connection, $query);
-						$row = mysqli_fetch_row($result);
-						$highest_id = $row[0];
-						//insert new data with user_id 
-						$connection->query("INSERT INTO incomes_category_assigned_to_users(user_id,name)
-						SELECT users.id as user_id, name FROM incomes_category_default,users WHERE users.id='$highest_id'");
-						$connection->query("INSERT INTO expenses_category_assigned_to_users(user_id,name)
-						SELECT users.id as user_id, name FROM expenses_category_default,users WHERE users.id='$highest_id'");
-						$connection->query("INSERT INTO payment_methods_assigned_to_users(user_id,name)
-						SELECT users.id as user_id, name FROM payment_methods_default,users WHERE users.id='$highest_id'");
-						$_SESSION['passedRegistration'] = true;
-						header('Location: login.php');
-					}
-					else{
-						throw new Exception($connection->error);
-					}
-				}
-				$connection->close();
+				$user_id_query  = $db->prepare("SELECT id FROM users ORDER BY id DESC");
+				$user_id_query->execute(); 
+				$user = $user_id_query->fetch();
+				$highest_id = $user[0];
+				//insert new data with user_id 
+				$query = $db->prepare("INSERT INTO incomes_category_assigned_to_users(user_id,name)
+				SELECT users.id as user_id, name FROM incomes_category_default,users WHERE users.id=:id");
+				$query->bindValue(':id', $highest_id, PDO::PARAM_INT);
+				$query->execute();
+				$query = $db->prepare("INSERT INTO expenses_category_assigned_to_users(user_id,name)
+				SELECT users.id as user_id, name FROM expenses_category_default,users WHERE users.id=:id");
+				$query->bindValue(':id', $highest_id, PDO::PARAM_INT);
+				$query->execute();
+				$query = $db->prepare("INSERT INTO payment_methods_assigned_to_users(user_id,name)
+				SELECT users.id as user_id, name FROM payment_methods_default,users WHERE users.id=:id");
+				$query->bindValue(':id', $highest_id, PDO::PARAM_INT);
+				$query->execute();
+				$_SESSION['passedRegistration'] = true;
+				header('Location: login.php');
+			}
+			else{
+				//throw new Exception($connection->error);
 			}
 		}
-		catch(Exception $e){
-			echo '<span style="color:red;">Error server! We are sorry for all inconveniences and please register in another time</span>';
-		}	
 	}
 ?>
 <!DOCTYPE html>
@@ -194,17 +188,15 @@
 								}
 							?>" name="password2" class="input">
                             </div>
-							<!--
+							
                             <div class="g-recaptcha" data-sitekey="6Lck-z8aAAAAAAvsfLI1iUrgtZyoDIS0FXApfSpb"></div>
                             <?php 
-								/*if(isset($_SESSION['e_bot'])){
+								if(isset($_SESSION['e_bot'])){
 									echo '<p class="error">'.$_SESSION['e_bot'].'</p>';
 									unset($_SESSION['e_bot']);
-								}*/
+								}
 							?>
-							-->
                             <div class="inputfield btn-warning">
-
                                 <input type="submit" value="Register" class="btn">
                             </div>
                             <p><a href="login.php">Already have an account? Log in</a></p>
