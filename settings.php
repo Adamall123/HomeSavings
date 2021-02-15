@@ -81,6 +81,24 @@
                 </div>
             </div>
         </div>
+		
+		<?php 
+						if(isset($_SESSION['info'])){
+							?><div class="alert alert-danger" role="alert" style="margin-top:20px; margin:auto; text-align: center;">
+							 <?php  echo $_SESSION['info'];
+							 unset($_SESSION['info']);?>
+							</div>
+			<?php }?>
+		<?php 
+						if(isset($_SESSION['addInfoOK'])){
+							?><div class="alert alert-success" role="alert" style="margin-top:20px; margin:auto; text-align: center;">
+							<i class="fas fa-plus" style="color: green"></i>
+							 <?php  echo $_SESSION['addInfoOK'];
+							 unset($_SESSION['addInfoOK']);?>
+							</div>
+			<?php }?>
+			
+
         <div class="row">
             <div class="col-lg-4">
                 <div class="Category" >
@@ -97,12 +115,13 @@
 						$incomes = $incomesQuery->fetchAll(); 
 							foreach($incomes  as $income){
 								echo "<li>{$income['name']}";?>
-								
+								<?php if($income['name']!= $defaultCategory){ ?>
 								<div class='editDeleteSpan'>
 										<a href="#editIncomeModal<?php echo $income['id']; ?>" data-toggle="modal" ><i class='fas fa-pencil-alt edit_btn'></i></a>  
 										<a href="#delIncomeModal<?php echo $income['id']; ?>" data-toggle="modal" ><i class='far fa-trash-alt'></i></a> 
 										<?php include('button.php'); ?>
 								</div>
+								<?php } ?>
 							</li>
 							<?php
 							}

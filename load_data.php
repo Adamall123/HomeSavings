@@ -17,6 +17,7 @@
 	 {    
 		  if($_POST["date_id"] == 1)  
 		  {  
+
 			   $sql = $db->query("SELECT name, SUM(amount) AS sum FROM incomes, incomes_category_assigned_to_users WHERE incomes_category_assigned_to_users.id = incomes.income_category_assigned_to_user_id AND incomes.user_id = '$user_loggedin_id' AND date_of_income >= '$year-$month-01' AND date_of_income <= '$year-$month-$numberOfDaysOfSelectedMonth' GROUP BY name"); 
 		  } 
 		  else if($_POST["date_id"] == 2)  
@@ -37,7 +38,8 @@
 		  foreach($incomesResult as $incomeResult) 
 		  {  
 			   $output .= '<li><a>'.$incomeResult["name"].': '.$incomeResult["sum"].'</a></li>';
-		  }  
+		  } 
+				  
 		  echo $output;  
 	 }
 		

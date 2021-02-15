@@ -23,7 +23,7 @@
 			header('Location: login.php');
 			}
 		}
-	}
+	}else header('Location: mainPage.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">

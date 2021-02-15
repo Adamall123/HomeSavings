@@ -40,7 +40,7 @@
 	  }  
 	  return $output;  
 	}
-	function fill_balance($connection,$user_loggedin_id)  
+	function fill_balance($db,$user_loggedin_id)  
 	{  
 	$month = date('m');
 	$year = date('Y');
@@ -200,7 +200,7 @@
 			</section>
 			<div style="clear: both;"></div>
 			<div id="balance">
-			<?php// echo fill_balance($db,$user_loggedin_id); ?>
+			<?php echo fill_balance($db,$user_loggedin_id); ?>
 			
 			</div>
 			
